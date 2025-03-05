@@ -5,100 +5,219 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora Nutricional - Pitaya</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-            background-color: #f9f9f9;
-        }
-        .header {
-            text-align: center;
-            padding: 20px;
-            background-color: #4a704a;
-            color: #fff;
-            margin-bottom: 20px;
-        }
-        .header img {
-            max-width: 150px;
-            margin-bottom: 10px;
-        }
-        .header h1 {
-            font-size: 24px;
-            margin: 0;
-        }
-        .header p {
-            font-size: 14px;
-            margin: 5px 0;
-        }
-        h2, h3 { color: #333; }
-        input, button, select {
-            margin: 5px;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            cursor: pointer;
-        }
-        button:hover { background-color: #45a049; }
-        #whatsappBtn {
-            background-color: #25D366;
-        }
-        #whatsappBtn:hover {
-            background-color: #20BD57;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px; /* Reducido para achicar las celdas */
-            text-align: center;
-            font-size: 14px; /* Ajuste de tamaño de fuente */
-        }
-        th {
-            background-color: #f2f2f2;
-            white-space: nowrap; /* Evita que el texto se desborde */
-        }
-        .error { border-color: red; }
-        #ingredientes tr:hover { background-color: #f9f9f9; }
-        textarea {
-            width: 100%;
-            height: 150px;
-            margin-top: 20px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-family: monospace;
-        }
-        .contact-info {
-            text-align: center;
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #4a704a;
-            color: #fff;
-            font-size: 14px;
-        }
-        .contact-info a {
-            color: #fff;
-            text-decoration: underline;
-            margin: 0 10px;
-        }
-        .name-section {
-            margin-bottom: 20px;
-        }
-        .name-section label {
-            margin-right: 10px;
-        }
-        .name-section input {
-            width: 200px;
-        }
+      /* Estilo general del cuerpo */
+body {
+    font-family: 'Arial', sans-serif; /* Fuente más limpia y profesional */
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #f5f5f5; /* Fondo más suave */
+    color: #333; /* Texto oscuro para mejor legibilidad */
+}
+
+/* Header con estilo de marca */
+.header {
+    text-align: center;
+    padding: 20px;
+    background-color: #4a704a; /* Verde oscuro de Pitaya */
+    color: #fff;
+    margin-bottom: 20px;
+    border-radius: 8px; /* Bordes redondeados suaves */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+.header img {
+    max-width: 150px;
+    margin-bottom: 10px;
+    border-radius: 50%; /* Logo circular para un toque moderno */
+}
+
+.header h1 {
+    font-size: 28px; /* Tamaño de título más grande */
+    margin: 0;
+    font-weight: 700; /* Negrita para destacar */
+    text-transform: uppercase; /* Mayúsculas para estilo de marca */
+}
+
+.header p {
+    font-size: 14px;
+    margin: 5px 0;
+    font-style: italic; /* Estilo cursivo para un toque natural */
+}
+
+/* Sección de nombre y apellido */
+.name-section {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px; /* Espaciado entre campos */
+    align-items: center;
+}
+
+.name-section label {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.name-section input {
+    width: 200px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s; /* Transición suave al enfocar */
+}
+
+.name-section input:focus {
+    border-color: #4a704a; /* Cambio de borde al enfocar */
+    outline: none; /* Eliminar outline predeterminado */
+}
+
+/* Estilo de la tabla */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra más pronunciada */
+    background-color: #fff; /* Fondo blanco para contraste */
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+th {
+    background-color: #e0e8e0; /* Verde claro para headers */
+    font-weight: 600;
+}
+
+.error {
+    border-color: red;
+}
+
+#ingredientes tr:hover {
+    background-color: #f0f8f0; /* Verde muy claro al pasar el ratón */
+}
+
+/* Estilo de inputs y selects dentro de la tabla */
+input, select {
+    margin: 5px;
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 80px; /* Ancho fijo para consistencia */
+    text-align: center;
+    transition: border-color 0.3s;
+}
+
+input:focus, select:focus {
+    border-color: #4a704a;
+    outline: none;
+}
+
+input[readonly] {
+    background-color: #f0f0f0; /* Fondo gris para campos de solo lectura */
+    cursor: not-allowed;
+}
+
+/* Botones */
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+#whatsappBtn {
+    background-color: #25D366; /* Verde de WhatsApp */
+}
+
+#whatsappBtn:hover {
+    background-color: #20BD57;
+}
+
+/* Textarea */
+textarea {
+    width: 100%;
+    height: 150px;
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: monospace;
+    resize: vertical; /* Permitir redimensionar solo verticalmente */
+    background-color: #fff;
+    transition: border-color 0.3s;
+}
+
+textarea:focus {
+    border-color: #4a704a;
+    outline: none;
+}
+
+/* Información de contacto */
+.contact-info {
+    text-align: center;
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #4a704a;
+    color: #fff;
+    font-size: 14px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.contact-info a {
+    color: #fff;
+    text-decoration: underline;
+    margin: 0 10px;
+    transition: color 0.3s;
+}
+
+.contact-info a:hover {
+    color: #d1e7dd; /* Cambio suave al pasar el ratón */
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    .name-section {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .name-section label {
+        margin-right: 0;
+        margin-bottom: 5px;
+    }
+
+    .name-section input {
+        width: 100%;
+        max-width: 250px;
+    }
+
+    table {
+        font-size: 12px;
+    }
+
+    th, td {
+        padding: 6px;
+    }
+
+    button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
     </style>
 </head>
 <body>
