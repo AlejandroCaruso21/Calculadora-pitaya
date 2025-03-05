@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Nutricional - Pitaya</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #f9f9f9;
+        }
+        .header {
+            text-align: center;
+            padding: 20px;
+            background-color: #4a704a;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .header img {
+            max-width: 150px;
+            margin-bottom: 10px;
+        }
+        .header h1 {
+            font-size: 24px;
+            margin: 0;
+        }
+        .header p {
+            font-size: 14px;
+            margin: 5px 0;
+        }
+        h2, h3 { color: #333; }
+        input, button, select {
+            margin: 5px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover { background-color: #45a049; }
+        #whatsappBtn {
+            background-color: #25D366;
+        }
+        #whatsappBtn:hover {
+            background-color: #20BD57;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px; /* Reducido para achicar las celdas */
+            text-align: center;
+            font-size: 14px; /* Ajuste de tamaño de fuente */
+        }
+        th {
+            background-color: #f2f2f2;
+            white-space: nowrap; /* Evita que el texto se desborde */
+        }
+        .error { border-color: red; }
+        #ingredientes tr:hover { background-color: #f9f9f9; }
+        textarea {
+            width: 100%;
+            height: 150px;
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        .contact-info {
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #4a704a;
+            color: #fff;
+            font-size: 14px;
+        }
+        .contact-info a {
+            color: #fff;
+            text-decoration: underline;
+            margin: 0 10px;
+        }
+        .name-section {
+            margin-bottom: 20px;
+        }
+        .name-section label {
+            margin-right: 10px;
+        }
+        .name-section input {
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="logo.png" alt="Pitaya Logo">
+        <h1>Pitaya | Productos nutritivos</h1>
+        <p>Tienda de alimentos naturales</p>
+        <p>Alimentación sana y consciente para vivir mejor🌱</p>
+        <p>Somos tu DISTRIBUIDOR NATURAL🛒</p>
+        <p>🚛 Envíos a todo el país</p>
+        <p>📍 Posadas, Misiones</p>
+    </div>
+
+    <h2>Calculadora Nutricional - Pitaya</h2>
+    <div class="name-section">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" placeholder="Ingresa tu nombre" required>
+        <label for="apellido">Apellido:</label>
+        <input type="text" id="apellido" placeholder="Ingresa tu apellido" required>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Ingrediente</th>
+                <th>Cantidad (g)</th>
+                <th>Calorías (kcal)</th>
+                <th>Grasas (g)</th>
+                <th>Proteínas (g)</th>
+                <th>Azúcares (g)</th>
+                <th>Fibra (g)</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
+        <tbody id="ingredientes"></tbody>
+        <tfoot>
+            <tr>
+                <td><strong>Totales</strong></td>
+                <td><strong id="totalGramos">0</strong> g</td>
+                <td><strong id="totalCalorias">0</strong> kcal</td>
+                <td><strong id="totalGrasas">0</strong> g</td>
+                <td><strong id="totalProteinas">0</strong> g</td>
+                <td><strong id="totalAzucares">0</strong> g</td>
+                <td><strong id="totalFibra">0</strong> g</td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+    <button id="agregarBtn">Agregar Ingrediente</button>
+    <button id="exportarBtn">Exportar a CSV</button>
+    <button id="whatsappBtn">Enviar a WhatsApp</button>
+    <h3>Resumen para el Cliente</h3>
+    <textarea id="resumen" readonly>Copia este texto para enviar al cliente...</textarea>
+
+    <div class="contact-info">
+        <p>📩 Contacto: <a href="mailto:Pitaya.posadas@gmail.com">Pitaya.posadas@gmail.com</a></p>
+        <p>📱 WhatsApp: <a href="https://api.whatsapp.com/send?phone=5493765530353">+54 9 3765 53-0353</a></p>
+        <p>📸 Instagram: <a href="https://www.instagram.com/pitayaposadas" target="_blank">pitayaposadas</a></p>
+        <p>🌐 Facebook: <a href="https://www.facebook.com/profile.php?id=61573732325197" target="_blank">Pitaya Posadas</a></p>
+    </div>
+
+    <script>
+        const ingredientesPredefinidos = {
+            "Almendras": { calorias: 579, grasas: 50, proteinas: 21, azucares: 4.4, fibra: 13 },
+            "Nueces": { calorias: 654, grasas: 65, proteinas: 15, azucares: 2.6, fibra: 7 },
+            "Avellanas": { calorias: 628, grasas: 61, proteinas: 15, azucares: 4.3, fibra: 10 },
+            "Castañas de cajú": { calorias: 553, grasas: 44, proteinas: 18, azucares: 5.9, fibra: 3 },
+            "Pistachos": { calorias: 560, grasas: 45, proteinas: 20, azucares: 7.7, fibra: 10 },
+            "Maní": { calorias: 567, grasas: 49, proteinas: 26, azucares: 4.7, fibra: 9 },
+            "Macadamias": { calorias: 718, grasas: 76, proteinas: 8, azucares: 4.6, fibra: 9 },
+            "Nueces de Brasil": { calorias: 656, grasas: 67, proteinas: 14, azucares: 2.3, fibra: 8 },
+            "Pecanas": { calorias: 691, grasas: 72, proteinas: 9, azucares: 4, fibra: 10 },
+            "Castañas": { calorias: 213, grasas: 2, proteinas: 3, azucares: 11, fibra: 8 },
+            "Bellotas": { calorias: 387, grasas: 24, proteinas: 6, azucares: 10, fibra: 8 },
+            "Semillas de calabaza": { calorias: 559, grasas: 49, proteinas: 30, azucares: 1.4, fibra: 6 },
+            "Semillas de girasol": { calorias: 584, grasas: 51, proteinas: 21, azucares: 2.6, fibra: 9 },
+            "Semillas de chía": { calorias: 486, grasas: 31, proteinas: 17, azucares: 0, fibra: 34 },
+            "Semillas de linaza": { calorias: 534, grasas: 42, proteinas: 18, azucares: 1.6, fibra: 27 },
+            "Semillas de sésamo": { calorias: 573, grasas: 50, proteinas: 18, azucares: 0.3, fibra: 12 },
+            "Semillas de cáñamo": { calorias: 553, grasas: 49, proteinas: 32, azucares: 1.5, fibra: 4 },
+            "Piñones": { calorias: 673, grasas: 68, proteinas: 14, azucares: 3.6, fibra: 4 },
+            "Semillas de amapola": { calorias: 525, grasas: 42, proteinas: 18, azucares: 3, fibra: 20 },
+            "Semillas de melón": { calorias: 556, grasas: 47, proteinas: 28, azucares: 1.5, fibra: 6 },
+            "Semillas de quinoa": { calorias: 368, grasas: 6, proteinas: 14, azucares: 0.9, fibra: 7 },
+            "Pasas rubias": { calorias: 302, grasas: 0.5, proteinas: 3, azucares: 59, fibra: 4 },
+            "Pasas morenas": { calorias: 296, grasas: 0.5, proteinas: 3, azucares: 59, fibra: 5 },
+            "Pasas negras": { calorias: 296, grasas: 0.5, proteinas: 3, azucares: 59, fibra: 5 },
+            "Arándanos deshidratados": { calorias: 317, grasas: 0.5, proteinas: 2, azucares: 67, fibra: 7 },
+            "Banana deshidratada": { calorias: 300, grasas: 0.5, proteinas: 3, azucares: 58, fibra: 8 },
+            "Maíz tostado": { calorias: 441, grasas: 13, proteinas: 7, azucares: 1, fibra: 7 },
+            "Coco en escamas": { calorias: 660, grasas: 65, proteinas: 7, azucares: 7, fibra: 16 },
+            "Melón deshidratado": { calorias: 325, grasas: 0.5, proteinas: 2, azucares: 70, fibra: 6 },
+            "Papaya deshidratada": { calorias: 320, grasas: 0.5, proteinas: 2, azucares: 65, fibra: 5 }
+        };
+
+        document.getElementById("agregarBtn").addEventListener("click", agregarIngrediente);
+        document.getElementById("exportarBtn").addEventListener("click", exportarCSV);
+        document.getElementById("whatsappBtn").addEventListener("click", enviarWhatsApp);
+
+        function agregarIngrediente() {
+            const tabla = document.getElementById("ingredientes");
+            const fila = tabla.insertRow();
+            let opciones = '<select onchange="rellenarNutrientes(this)"><option value="">Seleccione ingrediente</option>';
+            for (let ingrediente in ingredientesPredefinidos) {
+                opciones += `<option value="${ingrediente}">${ingrediente}</option>`;
+            }
+            opciones += '</select>';
+
+            fila.innerHTML = `
+                <td>${opciones}</td>
+                <td><input type="number" min="0" placeholder="Cantidad (g)" oninput="calcular()" required></td>
+                <td><input type="number" step="0.1" min="0" placeholder="Calorías" readonly></td>
+                <td><input type="number" step="0.1" min="0" placeholder="Grasas" readonly></td>
+                <td><input type="number" step="0.1" min="0" placeholder="Proteínas" readonly></td>
+                <td><input type="number" step="0.1" min="0" placeholder="Azúcares" readonly></td>
+                <td><input type="number" step="0.1" min="0" placeholder="Fibra" readonly></td>
+                <td><button onclick="eliminarFila(this)">X</button></td>
+            `;
+        }
+
+        function rellenarNutrientes(select) {
+            const fila = select.parentElement.parentElement;
+            const ingrediente = select.value;
+            const datos = ingredientesPredefinidos[ingrediente] || { calorias: 0, grasas: 0, proteinas: 0, azucares: 0, fibra: 0 };
+            const inputs = fila.querySelectorAll("input");
+
+            inputs[0].value = ""; // Cantidad (editable)
+            inputs[1].value = datos.calorias; // Calorías
+            inputs[2].value = datos.grasas; // Grasas
+            inputs[3].value = datos.proteinas; // Proteínas
+            inputs[4].value = datos.azucares; // Azúcares
+            inputs[5].value = datos.fibra; // Fibra
+
+            calcular();
+        }
+
+        function calcular() {
+            const filas = document.querySelectorAll("#ingredientes tr");
+            let totalGramos = 0, totalCalorias = 0, totalGrasas = 0, totalProteinas = 0, totalAzucares = 0, totalFibra = 0;
+
+            filas.forEach(fila => {
+                const select = fila.querySelector("select");
+                const inputs = fila.querySelectorAll("input");
+                const cantidad = parseFloat(inputs[0].value) || 0;
+                const calorias = parseFloat(inputs[1].value) || 0;
+                const grasas = parseFloat(inputs[2].value) || 0;
+                const proteinas = parseFloat(inputs[3].value) || 0;
+                const azucares = parseFloat(inputs[4].value) || 0;
+                const fibra = parseFloat(inputs[5].value) || 0;
+
+                if (!select.value || !cantidad) {
+                    select.classList.add("error");
+                    inputs[0].classList.add("error");
+                    return;
+                } else {
+                    select.classList.remove("error");
+                    inputs[0].classList.remove("error");
+                }
+
+                totalGramos += cantidad;
+                totalCalorias += (calorias * cantidad) / 100;
+                totalGrasas += (grasas * cantidad) / 100;
+                totalProteinas += (proteinas * cantidad) / 100;
+                totalAzucares += (azucares * cantidad) / 100;
+                totalFibra += (fibra * cantidad) / 100;
+            });
+
+            document.getElementById("totalGramos").textContent = totalGramos;
+            document.getElementById("totalCalorias").textContent = totalCalorias.toFixed(0);
+            document.getElementById("totalGrasas").textContent = totalGrasas.toFixed(1);
+            document.getElementById("totalProteinas").textContent = totalProteinas.toFixed(1);
+            document.getElementById("totalAzucares").textContent = totalAzucares.toFixed(1);
+            document.getElementById("totalFibra").textContent = totalFibra.toFixed(1);
+            actualizarResumen();
+        }
+
+        function eliminarFila(boton) {
+            boton.parentElement.parentElement.remove();
+            calcular();
+        }
+
+        function exportarCSV() {
+            const filas = document.querySelectorAll("#ingredientes tr");
+            let csv = "Ingrediente,Cantidad (g),Calorías (kcal),Grasas (g),Proteínas (g),Azúcares (g),Fibra (g)\n";
+            filas.forEach(fila => {
+                const select = fila.querySelector("select");
+                const inputs = fila.querySelectorAll("input");
+                csv += `${select.value},${inputs[0].value},${inputs[1].value},${inputs[2].value},${inputs[3].value},${inputs[4].value},${inputs[5].value}\n`;
+            });
+            csv += `Totales,${document.getElementById("totalGramos").textContent},${document.getElementById("totalCalorias").textContent},${document.getElementById("totalGrasas").textContent},${document.getElementById("totalProteinas").textContent},${document.getElementById("totalAzucares").textContent},${document.getElementById("totalFibra").textContent}`;
+            
+            const blob = new Blob([csv], { type: "text/csv" });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "mix_frutos_secos.csv";
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+
+        function actualizarResumen() {
+            const nombre = document.getElementById("nombre").value || "Cliente";
+            const apellido = document.getElementById("apellido").value || "";
+            const filas = document.querySelectorAll("#ingredientes tr");
+            let resumen = `Pedido de ${nombre} ${apellido}\n\n`;
+            resumen += "Mix de Frutos Secos - Pitaya\n\n";
+            resumen += "Ingredientes:\n";
+            filas.forEach(fila => {
+                const select = fila.querySelector("select");
+                const inputs = fila.querySelectorAll("input");
+                resumen += `- ${select.value}: ${inputs[0].value} g\n`;
+            });
+
+            resumen += "\nValores Nutricionales Totales:\n";
+            resumen += `- Peso: ${document.getElementById("totalGramos").textContent} g\n`;
+            resumen += `- Calorías: ${document.getElementById("totalCalorias").textContent} kcal\n`;
+            resumen += `- Grasas: ${document.getElementById("totalGrasas").textContent} g\n`;
+            resumen += `- Proteínas: ${document.getElementById("totalProteinas").textContent} g\n`;
+            resumen += `- Azúcares: ${document.getElementById("totalAzucares").textContent} g\n`;
+            resumen += `- Fibra: ${document.getElementById("totalFibra").textContent} g\n`;
+            resumen += "\nNota: Valores aproximados. Consultar a un nutricionista para precisión.\n";
+
+            document.getElementById("resumen").value = resumen;
+        }
+
+        function enviarWhatsApp() {
+            const nombre = document.getElementById("nombre").value;
+            const apellido = document.getElementById("apellido").value;
+            if (!nombre || !apellido) {
+                alert("Por favor, ingresa tu nombre y apellido antes de enviar.");
+                return;
+            }
+            const resumen = document.getElementById("resumen").value;
+            if (resumen === "Copia este texto para enviar al cliente...") {
+                alert("Por favor, agrega al menos un ingrediente antes de enviar.");
+                return;
+            }
+            const mensaje = encodeURIComponent(resumen);
+            const whatsappUrl = `https://api.whatsapp.com/send?phone=5493765530353&text=${mensaje}`;
+            window.open(whatsappUrl, '_blank');
+        }
+    </script>
+</body>
+</html>
